@@ -26,6 +26,7 @@ from jishaku.features.baseclass import Feature
 from jishaku.flags import Flags
 from jishaku.math import natural_size
 from jishaku.modules import package_version
+from jishaku.paginators import PaginatorInterface
 from jishaku.types import ContextA
 
 try:
@@ -53,74 +54,53 @@ class RootCommand(Feature):
         All other functionality is within its subcommands.
         """
 
-        # Try to locate what vends the `discord` package
-        distributions: typing.List[str] = [
-            dist for dist in packages_distributions()['discord']  # type: ignore
-            if any(
-                file.parts == ('discord', '__init__.py')  # type: ignore
-                for file in distribution(dist).files  # type: ignore
-            )
+        # Get the discord package version
+        distributions = [
+            dist for dist in packages_distributions().get('discord', [])
+            if any(file.parts == ('discord', '__init__.py') for file in distribution(dist).files)
         ]
 
-        if distributions:
-            dist_version = f'{distributions[0]} `{package_version(distributions[0])}`'
-        else:
-            dist_version = f'unknown `{discord.__version__}`'
+        dist_version = f'{distributions[0]} `{package_version(distributions[0])}`' if distributions else f'unknown `{discord.__version__}`'
 
+        # System and library info
         summary = [
             f"Aniflax v{package_version('jishaku')}, {dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
             f"Process started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
         ]
 
-        # detect if [procinfo] feature is installed
+        # Memory usage and PID details
         if psutil:
-            try:
-                proc = psutil.Process()
+            proc = psutil.Process()
+            with proc.oneshot():
+                mem = proc.memory_full_info()
+                summary.append(f"Using {natural_size(mem.rss)} at this process.")
+                summary.append(f"Running on PID {proc.pid}\n")
 
-                with proc.oneshot():
-                    try:
-                        mem = proc.memory_full_info()
-                        summary.append(f"Using {natural_size(mem.rss)} at this process.")
-                    except psutil.AccessDenied:
-                        pass
-
-                    try:
-                        pid = proc.pid
-                        summary.append(f"Running on PID {pid}\n")
-                    except psutil.AccessDenied:
-                        pass
-            except psutil.AccessDenied:
-                summary.append(
-                    "\npsutil is installed, but this process does not have high enough access rights "
-                    "to query process information.\n"
-                )
-
+        # Guild and user count
         guild_count = len(self.bot.guilds)
         user_count = len(self.bot.users)
-        summary.append(
-            f"This bot is not sharded and can see {guild_count} guild{'s' if guild_count != 1 else ''} and {user_count} user{'s' if user_count != 1 else ''}.\n"
-        )
+        summary.append(f"This bot is not sharded and can see {guild_count} guild{'s' if guild_count != 1 else ''} and {user_count} user{'s' if user_count != 1 else ''}.")
 
+        # Intent statuses
         intent_summary = {
             'GuildPresences': 'enabled' if self.bot.intents.presences else 'disabled',
             'GuildMembers': 'enabled' if self.bot.intents.members else 'disabled',
             'MessageContent': 'enabled' if self.bot.intents.message_content else 'disabled',
         }
-        summary.extend(
-            [f"`{intent}` intent is {status}" for intent, status in intent_summary.items()]
-        )
+        summary.extend([f"`{intent}` intent is {status}" for intent, status in intent_summary.items()])
 
-        summary.append(f"\nAverage websocket latency: {round(self.bot.latency * 1000)}ms")
+        # WebSocket latency
+        summary.append(f"Average websocket latency: {round(self.bot.latency * 1000)}ms")
 
+        # Send the formatted output
         await ctx.send("\n".join(summary))
 
-    # pylint: disable=no-member
+    # Hide and show commands for Jishaku
     @Feature.Command(parent="jsk", name="hide")
     async def jsk_hide(self, ctx: ContextA):
         """
         Hides Jishaku from the help command.
         """
-
         if self.jsk.hidden:  # type: ignore
             return await ctx.send("Jishaku is already hidden.")
 
@@ -132,20 +112,18 @@ class RootCommand(Feature):
         """
         Shows Jishaku in the help command.
         """
-
         if not self.jsk.hidden:  # type: ignore
             return await ctx.send("Jishaku is already visible.")
 
         self.jsk.hidden = False  # type: ignore
         await ctx.send("Jishaku is now visible.")
-    # pylint: enable=no-member
 
+    # Tasks command to show running tasks
     @Feature.Command(parent="jsk", name="tasks")
     async def jsk_tasks(self, ctx: ContextA):
         """
         Shows the currently running jishaku tasks.
         """
-
         if not self.tasks:
             return await ctx.send("No currently running tasks.")
 
@@ -162,6 +140,7 @@ class RootCommand(Feature):
         interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
         return await interface.send_to(ctx)
 
+    # Cancel command to cancel tasks by index
     @Feature.Command(parent="jsk", name="cancel")
     async def jsk_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
         """
@@ -169,7 +148,6 @@ class RootCommand(Feature):
 
         If the index passed is -1, will cancel the last task instead.
         """
-
         if not self.tasks:
             return await ctx.send("No tasks to cancel.")
 
@@ -204,5 +182,4 @@ class RootCommand(Feature):
                            f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")
         else:
             await ctx.send(f"Cancelled task {task.index}: unknown,"
-                           f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")
-            
+                           f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")        
