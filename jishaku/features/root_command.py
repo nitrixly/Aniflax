@@ -23,10 +23,8 @@ import discord
 from discord.ext import commands
 
 from jishaku.features.baseclass import Feature
-from jishaku.flags import Flags
 from jishaku.math import natural_size
 from jishaku.modules import package_version
-from jishaku.paginators import PaginatorInterface
 from jishaku.types import ContextA
 
 try:
@@ -39,10 +37,6 @@ class RootCommand(Feature):
     """
     Feature containing the root jsk command
     """
-
-    def __init__(self, *args: typing.Any, **kwargs: typing.Any):
-        super().__init__(*args, **kwargs)
-        self.jsk.hidden = Flags.HIDE  # type: ignore
 
     @Feature.Command(name="aniflax", aliases=["ani"],
                      invoke_without_command=True, ignore_extra=False)
@@ -64,7 +58,7 @@ class RootCommand(Feature):
 
         # System and library info
         summary = [
-            f"Aniflax v{package_version('jishaku')}, {dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
+            f"Aniflax v{package_version('jishaku')}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
             f"Process started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
         ]
 
@@ -182,4 +176,4 @@ class RootCommand(Feature):
                            f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")
         else:
             await ctx.send(f"Cancelled task {task.index}: unknown,"
-                           f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")        
+                           f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")
