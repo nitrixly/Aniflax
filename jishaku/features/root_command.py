@@ -44,7 +44,7 @@ class RootCommand(Feature):
         super().__init__(*args, **kwargs)
         self.jsk.hidden = Flags.HIDE  # type: ignore
 
-    @Feature.Command(name="jishaku", aliases=["jsk"],
+    @Feature.Command(name="aniflax", aliases=["ani"],
                      invoke_without_command=True, ignore_extra=False)
     async def jsk(self, ctx: ContextA):
         """
@@ -69,7 +69,7 @@ class RootCommand(Feature):
             dist_version = f'unknown `{discord.__version__}`'
 
         summary = [
-            f"Jishaku v{package_version('jishaku')}, {dist_version}, "
+            f"Aniflax v{package_version('jishaku')}, {dist_version}, "
             f"`Python {sys.version}` on `{sys.platform}`".replace("\n", ""),
             f"Module was loaded <t:{self.load_time.timestamp():.0f}:R>, "
             f"cog was loaded <t:{self.start_time.timestamp():.0f}:R>.",
