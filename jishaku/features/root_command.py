@@ -58,7 +58,7 @@ class RootCommand(Feature):
 
         # System and library info
         summary = [
-            f"Aniflax v{package_version('jishaku')}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
+            f"Aniflax v{package_version('jishaku')},{dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
             f"Process started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
         ]
 
