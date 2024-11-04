@@ -68,8 +68,8 @@ class RootCommand(Feature):
             dist_version = f'unknown `{discord.__version__}`'
 
         summary = [
-            f"Aniflax v{package_version('Aniflax')}, {dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
-            f"\nProcess started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
+            f"Aniflax v{package_version('jishaku')}, {dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
+            f"Process started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
         ]
 
         # detect if [procinfo] feature is installed
@@ -205,3 +205,4 @@ class RootCommand(Feature):
         else:
             await ctx.send(f"Cancelled task {task.index}: unknown,"
                            f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")
+            
