@@ -41,11 +41,11 @@ class RootCommand(Feature):
 
     @Feature.Command(name="aniflax", aliases=["ani"], invoke_without_command=True, ignore_extra=False)
     async def jsk(self, ctx: ContextA):
-        jishaku_version = package_version("jishaku").split("+")[0]
-        dist_version = f'{distribution("discord").metadata["Name"]} `{package_version("discord")}`'
+        jishaku_version = package_version("jishaku").split("a")[0]
+        discord_version = package_version("discord").split("a")[0]
         
         summary = [
-            f"Aniflax v{jishaku_version}, {dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
+            f"Aniflax v{jishaku_version}, discord `{discord_version}`, `Python {sys.version.split()[0]}` on `{sys.platform}`",
             f"Process started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
         ]
 
