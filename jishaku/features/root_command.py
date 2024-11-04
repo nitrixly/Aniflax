@@ -26,7 +26,6 @@ from jishaku.features.baseclass import Feature
 from jishaku.flags import Flags
 from jishaku.math import natural_size
 from jishaku.modules import package_version
-from jishaku.paginators import PaginatorInterface
 from jishaku.types import ContextA
 
 try:
@@ -69,8 +68,8 @@ class RootCommand(Feature):
             dist_version = f'unknown `{discord.__version__}`'
 
         summary = [
-            f"Aniflax v{package_version('jishaku')}, {dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
-            f"Process started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.",
+            f"Aniflax v{package_version('Aniflax')}, {dist_version}, `Python {sys.version.split()[0]}` on `{sys.platform}`",
+            f"\nProcess started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
         ]
 
         # detect if [procinfo] feature is installed
@@ -87,19 +86,19 @@ class RootCommand(Feature):
 
                     try:
                         pid = proc.pid
-                        summary.append(f"Running on PID {pid}")
+                        summary.append(f"Running on PID {pid}\n")
                     except psutil.AccessDenied:
                         pass
             except psutil.AccessDenied:
                 summary.append(
-                    "psutil is installed, but this process does not have high enough access rights "
-                    "to query process information."
+                    "\npsutil is installed, but this process does not have high enough access rights "
+                    "to query process information.\n"
                 )
 
         guild_count = len(self.bot.guilds)
         user_count = len(self.bot.users)
         summary.append(
-            f"This bot is not sharded and can see {guild_count} guild{'s' if guild_count != 1 else ''} and {user_count} user{'s' if user_count != 1 else ''}."
+            f"This bot is not sharded and can see {guild_count} guild{'s' if guild_count != 1 else ''} and {user_count} user{'s' if user_count != 1 else ''}.\n"
         )
 
         intent_summary = {
@@ -111,7 +110,7 @@ class RootCommand(Feature):
             [f"`{intent}` intent is {status}" for intent, status in intent_summary.items()]
         )
 
-        summary.append(f"Average websocket latency: {round(self.bot.latency * 1000)}ms")
+        summary.append(f"\nAverage websocket latency: {round(self.bot.latency * 1000)}ms")
 
         await ctx.send("\n".join(summary))
 
