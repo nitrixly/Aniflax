@@ -40,7 +40,7 @@ class RootCommand(Feature):
         self.jsk.hidden = True
 
     @Feature.Command(name="aniflax", aliases=["ani"], invoke_without_command=True, ignore_extra=False)
-    async def jsk(self, ctx: ContextA):
+    async def ani(self, ctx: ContextA):
         jishaku_version = package_version("jishaku").split("a")[0]
         discord_version = package_version("discord").split("a")[0]
         
@@ -70,10 +70,10 @@ class RootCommand(Feature):
         summary.append(f"Average websocket latency: {round(self.bot.latency * 1000)}ms")
         await ctx.send("\n".join(summary))
 
-    @Feature.Command(parent="jsk", name="hide")
+    @Feature.Command(parent="ani", name="hide")
     async def jsk_hide(self, ctx: ContextA):
         if self.jsk.hidden:
-            return await ctx.send("Jishaku is already hidden.")
+            return await ctx.send("Aniflax is already in stealth mode.")
 
         self.jsk.hidden = True
         await ctx.send("Jishaku is now hidden.")
