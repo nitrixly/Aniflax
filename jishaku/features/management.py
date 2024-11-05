@@ -71,7 +71,7 @@ class ManagementFeature(Feature):
                     empty=True
                 )
             else:
-                paginator.add_line(f"`🔁` `{extension}`", empty=True)
+                paginator.add_line(f"🔁 `{extension}`", empty=True)
 
         for page in paginator.pages:
             await ctx.send(page)
