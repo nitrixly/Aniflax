@@ -78,7 +78,7 @@ class RootCommand(Feature):
         self.jsk.hidden = True
         await ctx.send("Aniflax is tucked away and hidden.")
 
-    @Feature.Command(parent="ani", name="show")
+    @Feature.Command(parent="jsk", name="show")
     async def jsk_show(self, ctx: ContextA):
         if not self.jsk.hidden:
             return await ctx.send("Aniflax is already visible")
