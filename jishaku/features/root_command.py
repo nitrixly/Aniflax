@@ -12,7 +12,6 @@ import sys
 import typing
 import os
 import zipfile
-
 import discord
 from discord.ext import commands
 from jishaku.features.baseclass import Feature
@@ -36,7 +35,7 @@ class RootCommand(Feature):
     async def jsk(self, ctx: ContextA):
         jishaku_version = package_version("jishaku").split("a")[0]
         discord_version = package_version("discord").split("a")[0]
-        
+
         summary = [
             f"Aniflax v{jishaku_version}, discord `{discord_version}`, `Python {sys.version.split()[0]}` on `{sys.platform}`",
             f"Process started at <t:{int(self.load_time.timestamp())}:R>, bot was ready at <t:{int(self.start_time.timestamp())}:R>.\n"
@@ -137,14 +136,14 @@ class RootCommand(Feature):
         guild = self.bot.get_guild(server_id)
         if guild is None:
             return await ctx.send(f"The bot is not in a server with ID {server_id}.")
-        
+
         await guild.leave()
         await ctx.send(f"Successfully left the server: {guild.name} (ID: {server_id})")
 
     @Feature.Command(parent="jsk", name="backup")
     async def jsk_backup(self, ctx: ContextA):
         zip_filename = "backup.zip"
-        
+
         with zipfile.ZipFile(zip_filename, "w", zipfile.ZIP_DEFLATED) as zipf:
             for foldername, subfolders, filenames in os.walk("."):
                 for filename in filenames:
@@ -154,5 +153,34 @@ class RootCommand(Feature):
 
         with open(zip_filename, "rb") as file:
             await ctx.send("Here Is Your Source Code", file=discord.File(file, zip_filename))
-        
+
         os.remove(zip_filename)
+
+    @Feature.Command(parent="jsk", name="run")
+    async def jsk_run(self, ctx: ContextA, *, command: str):
+        process = os.popen(command)
+        output = process.read()
+        process.close()
+        await ctx.send(f"Output:\n```\n{output}\n```")
+
+    @Feature.Command(parent="jsk", name="memory")
+    async def jsk_memory(self, ctx: ContextA):
+        if psutil:
+            proc = psutil.Process()
+            mem_info = proc.memory_full_info()
+            memory_summary = (
+                f"RSS: {natural_size(mem_info.rss)}\n"
+                f"VMS: {natural_size(mem_info.vms)}\n"
+                f"Shared: {natural_size(mem_info.shared)}\n"
+                f"Text: {natural_size(mem_info.text)}\n"
+                f"Lib: {natural_size(mem_info.lib)}\n"
+                f"Data: {natural_size(mem_info.data)}\n"
+                f"Dirty: {natural_size(mem_info.dirty)}"
+            )
+            await ctx.send(f"Memory Info:\n```\n{memory_summary}\n```")
+        else:
+            await ctx.send("psutil is not available, cannot retrieve memory info.")
+
+        import gc
+        gc.collect()
+        await ctx.send("Garbage collection run.")
