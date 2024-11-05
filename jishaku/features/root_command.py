@@ -153,6 +153,6 @@ class RootCommand(Feature):
                         zipf.write(file_path, os.path.relpath(file_path, "."))
 
         with open(zip_filename, "rb") as file:
-            await ctx.send("Here is the backup of the bot's current code:", file=discord.File(file, zip_filename))
+            await ctx.send("Here Is Your Source Code", file=discord.File(file, zip_filename))
         
         os.remove(zip_filename)    
