@@ -40,7 +40,7 @@ class RootCommand(Feature):
         self.jsk.hidden = True
 
     @Feature.Command(name="aniflax", aliases=["ani"], invoke_without_command=True, ignore_extra=False)
-    async def ani(self, ctx: ContextA):
+    async def jsk(self, ctx: ContextA):
         jishaku_version = package_version("jishaku").split("a")[0]
         discord_version = package_version("discord").split("a")[0]
         
@@ -71,7 +71,7 @@ class RootCommand(Feature):
         await ctx.send("\n".join(summary))
 
     @Feature.Command(parent="ani", name="hide")
-    async def ani_hide(self, ctx: ContextA):
+    async def jsk_hide(self, ctx: ContextA):
         if self.jsk.hidden:
             return await ctx.send("Aniflax is already in stealth mode.")
 
@@ -79,7 +79,7 @@ class RootCommand(Feature):
         await ctx.send("Aniflax is tucked away and hidden.")
 
     @Feature.Command(parent="ani", name="show")
-    async def ani_show(self, ctx: ContextA):
+    async def jsk_show(self, ctx: ContextA):
         if not self.jsk.hidden:
             return await ctx.send("Aniflax is already visible")
 
@@ -87,7 +87,7 @@ class RootCommand(Feature):
         await ctx.send("Aniflax is now visible.")
 
     @Feature.Command(parent="ani", name="tasks")
-    async def ani_tasks(self, ctx: ContextA):
+    async def jsk_tasks(self, ctx: ContextA):
         if not self.tasks:
             return await ctx.send("No currently running tasks.")
 
@@ -105,7 +105,7 @@ class RootCommand(Feature):
         return await interface.send_to(ctx)
 
     @Feature.Command(parent="ani", name="cancel")
-    async def ani_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
+    async def jsk_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
         if not self.tasks:
             return await ctx.send("No tasks to cancel.")
 
