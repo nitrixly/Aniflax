@@ -71,23 +71,23 @@ class RootCommand(Feature):
         await ctx.send("\n".join(summary))
 
     @Feature.Command(parent="ani", name="hide")
-    async def jsk_hide(self, ctx: ContextA):
+    async def ani_hide(self, ctx: ContextA):
         if self.jsk.hidden:
             return await ctx.send("Aniflax is already in stealth mode.")
 
         self.jsk.hidden = True
-        await ctx.send("Jishaku is now hidden.")
+        await ctx.send("Aniflax is tucked away and hidden.")
 
-    @Feature.Command(parent="jsk", name="show")
-    async def jsk_show(self, ctx: ContextA):
+    @Feature.Command(parent="ani", name="show")
+    async def ani_show(self, ctx: ContextA):
         if not self.jsk.hidden:
-            return await ctx.send("Jishaku is already visible.")
+            return await ctx.send("Aniflax is already visible")
 
         self.jsk.hidden = False
-        await ctx.send("Jishaku is now visible.")
+        await ctx.send("Aniflax is now visible.")
 
-    @Feature.Command(parent="jsk", name="tasks")
-    async def jsk_tasks(self, ctx: ContextA):
+    @Feature.Command(parent="ani", name="tasks")
+    async def ani_tasks(self, ctx: ContextA):
         if not self.tasks:
             return await ctx.send("No currently running tasks.")
 
@@ -104,8 +104,8 @@ class RootCommand(Feature):
         interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
         return await interface.send_to(ctx)
 
-    @Feature.Command(parent="jsk", name="cancel")
-    async def jsk_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
+    @Feature.Command(parent="ani", name="cancel")
+    async def ani_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
         if not self.tasks:
             return await ctx.send("No tasks to cancel.")
 
