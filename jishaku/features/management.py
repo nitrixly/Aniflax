@@ -113,7 +113,7 @@ class ManagementFeature(Feature):
 
         ellipse_character = "\N{BRAILLE PATTERN DOTS-356}" if Flags.USE_BRAILLE_J else "\N{HORIZONTAL ELLIPSIS}"
 
-        await ctx.send(f"Logging out now{ellipse_character}")
+        await ctx.send(f"System shutdown in progress{ellipse_character}")
         await ctx.bot.close()
 
     @Feature.Command(parent="jsk", name="invite")
@@ -142,7 +142,7 @@ class ManagementFeature(Feature):
         }
 
         return await ctx.send(
-            f"Link to invite this bot:\n<https://discordapp.com/oauth2/authorize?{urlencode(query, safe='+')}>"
+            f"Your Bot Invite Link:\n<https://discordapp.com/oauth2/authorize?{urlencode(query, safe='+')}>"
         )
 
     @Feature.Command(parent="jsk", name="rtt", aliases=["ping"])
@@ -162,7 +162,7 @@ class ManagementFeature(Feature):
         # This gives us 5 visible readings, because a request can't include the stats for itself.
         for _ in range(6):
             # First generate the text
-            text = "Calculating round-trip time...\n\n"
+            text = "Calculating round-trip time!\n\n"
             text += "\n".join(f"Reading {index + 1}: {reading * 1000:.2f}ms" for index, reading in enumerate(api_readings))
 
             if api_readings:
