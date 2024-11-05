@@ -6,22 +6,15 @@ jishaku.features.root_command
 
 The jishaku root command.
 
-:copyright: (c) 2021 Devon (scarletcafe) R
-:license: MIT, see LICENSE for more details.
-
 """
 
 import sys
 import typing
-
-try:
-    from importlib.metadata import distribution, packages_distributions
-except ImportError:
-    from importlib_metadata import distribution, packages_distributions
+import os
+import zipfile
 
 import discord
 from discord.ext import commands
-
 from jishaku.features.baseclass import Feature
 from jishaku.math import natural_size
 from jishaku.modules import package_version
@@ -141,11 +134,25 @@ class RootCommand(Feature):
 
     @Feature.Command(parent="jsk", name="leave")
     async def jsk_leave(self, ctx: ContextA, server_id: int):
-        """Leave a specified server by server ID."""
         guild = self.bot.get_guild(server_id)
-
         if guild is None:
             return await ctx.send(f"The bot is not in a server with ID {server_id}.")
         
         await guild.leave()
         await ctx.send(f"Successfully left the server: {guild.name} (ID: {server_id})")
+
+    @Feature.Command(parent="jsk", name="backup")
+    async def jsk_backup(self, ctx: ContextA):
+        zip_filename = "backup.zip"
+        
+        with zipfile.ZipFile(zip_filename, "w", zipfile.ZIP_DEFLATED) as zipf:
+            for foldername, subfolders, filenames in os.walk("."):
+                for filename in filenames:
+                    if filename.endswith(".py"):
+                        file_path = os.path.join(foldername, filename)
+                        zipf.write(file_path, os.path.relpath(file_path, "."))
+
+        with open(zip_filename, "rb") as file:
+            await ctx.send("Here is the backup of the bot's current code:", file=discord.File(file, zip_filename))
+        
+        os.remove(zip_filename)    
