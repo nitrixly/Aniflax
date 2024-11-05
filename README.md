@@ -14,7 +14,7 @@ To install Aniflax, follow these steps:
 
 1. Install the repository:
    ```bash
-   pip install git+https://github.com/nitrixly/Aniflax@master
+   pip install git+https://github.com/nitrixly/Aniflax.git
    ```
 
 2. Install the required packages:
