@@ -70,7 +70,7 @@ class RootCommand(Feature):
         summary.append(f"Average websocket latency: {round(self.bot.latency * 1000)}ms")
         await ctx.send("\n".join(summary))
 
-    @Feature.Command(parent="ani", name="hide")
+    @Feature.Command(parent="jsk", name="hide")
     async def jsk_hide(self, ctx: ContextA):
         if self.jsk.hidden:
             return await ctx.send("Aniflax is already in stealth mode.")
@@ -86,7 +86,7 @@ class RootCommand(Feature):
         self.jsk.hidden = False
         await ctx.send("Aniflax is now visible.")
 
-    @Feature.Command(parent="ani", name="tasks")
+    @Feature.Command(parent="jsk", name="tasks")
     async def jsk_tasks(self, ctx: ContextA):
         if not self.tasks:
             return await ctx.send("No currently running tasks.")
@@ -104,7 +104,7 @@ class RootCommand(Feature):
         interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
         return await interface.send_to(ctx)
 
-    @Feature.Command(parent="ani", name="cancel")
+    @Feature.Command(parent="jsk", name="cancel")
     async def jsk_cancel(self, ctx: ContextA, *, index: typing.Union[int, str]):
         if not self.tasks:
             return await ctx.send("No tasks to cancel.")
