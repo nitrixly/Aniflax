@@ -139,11 +139,11 @@ class RootCommand(Feature):
             await ctx.send(f"Cancelled task {task.index}: unknown,"
                            f" invoked {discord.utils.format_dt(task.ctx.message.created_at, 'R')}")
 
-@Feature.Command(parent="jsk", name="leave")
+    @Feature.Command(parent="jsk", name="leave")
     async def jsk_leave(self, ctx: ContextA, server_id: int):
-        """Leave the specified server by its ID."""
+        """Leave a specified server by server ID."""
         guild = self.bot.get_guild(server_id)
-        
+
         if guild is None:
             return await ctx.send(f"The bot is not in a server with ID {server_id}.")
         
