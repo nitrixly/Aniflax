@@ -183,7 +183,7 @@ class InvocationFeature(Feature):
                 await alt_ctx.command.invoke(alt_ctx)
 
         end = time.perf_counter()
-        return await ctx.send(f"Command `{alt_ctx.command.qualified_name}` finished in {end - start:.3f}s.")
+        return await ctx.send(f"✅ Command `{alt_ctx.command.qualified_name}` finished in {end - start:.3f}s.")
 
     @Feature.Command(parent="jsk", name="source", aliases=["src"])
     async def jsk_source(self, ctx: ContextA, *, command_name: str):
