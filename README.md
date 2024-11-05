@@ -12,7 +12,7 @@ Aniflax is an upgraded version of the popular Jishaku bot, designed for Discord.
 
 To install Aniflax, follow these steps:
 
-1. Clone the repository:
+1. Install the repository:
    ```bash
    pip install git+https://github.com/nitrixly/aniflax@master
    ```
