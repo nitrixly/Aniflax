@@ -175,7 +175,7 @@ class ManagementFeature(Feature):
             if websocket_readings:
                 average = sum(websocket_readings) / len(websocket_readings)
 
-                text += f"\nWebsocket latency: {average * 1000:.2f}ms 🏓"
+                text += f"\nWebsocket latency: {average * 1000:.2f}ms"
             else:
                 text += f"\nWebsocket latency: {self.bot.latency * 1000:.2f}ms 🏓"
 
@@ -330,7 +330,7 @@ class ManagementFeature(Feature):
                     paginator.add_line(f"\N{WARNING SIGN} Global: {error_text}", empty=True)
             else:
                 if guild:
-                    paginator.add_line(f"\N{SATELLITE ANTENNA} `{guild}` Synced {len(synced)} guild commands", empty=True)
+                    paginator.add_line(f"\N{SATELLITE ANTENNA} `{guild}` Synced {len(synced)} guild commands successfully.", empty=True)
                 else:
                     paginator.add_line(f"\N{SATELLITE ANTENNA} Synced {len(synced)} global commands", empty=True)
 
