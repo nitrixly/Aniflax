@@ -100,9 +100,9 @@ with open(ROOT / 'README.md', 'r', encoding='utf-8') as f:
 
 
 setup(
-    name='jishaku',
-    author='Devon (scarletcafe) R',
-    url='https://github.com/scarletcafe/jishaku',
+    name='Aniflax',
+    author='Nitrix',
+    url='https://github.com/nitrixly/Aniflax',
 
     license='MIT',
     description='A discord.py extension including useful tools for bot development and debugging.',
@@ -110,11 +110,11 @@ setup(
     long_description_content_type='text/markdown',
     project_urls={
         'Documentation': 'https://jishaku.readthedocs.io/en/latest/',
-        'Code': 'https://github.com/scarletcafe/jishaku',
+        'Code': 'https://github.com/nitrixly/Aniflax',
         'Issue tracker': 'https://github.com/scarletcafe/jishaku/issues'
     },
 
-    version=version,
+    version='1.0.0',
     packages=['jishaku', 'jishaku.features', 'jishaku.repl'],
     include_package_data=True,
     install_requires=REQUIREMENTS,
@@ -129,7 +129,7 @@ setup(
 
     download_url=f'https://github.com/scarletcafe/jishaku/archive/{version}.tar.gz',
 
-    keywords='jishaku discord.py discord cog repl extension',
+    keywords='Aniflax discord.py discord cog repl extension',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: AsyncIO',
