@@ -163,7 +163,7 @@ class ManagementFeature(Feature):
         for _ in range(6):
             # First generate the text
             text = "Calculating round-trip time.\n\n"
-            text += "\n".join(f"Reading {index + 1}: {reading * 1000:.2f}ms" for index, reading in enumerate(api_readings))
+            text += "\n".join(f"`#{index + 1}` Reading: {reading * 1000:.2f}ms" for index, reading in enumerate(api_readings))
 
             if api_readings:
                 average, stddev = mean_stddev(api_readings)
@@ -175,9 +175,9 @@ class ManagementFeature(Feature):
             if websocket_readings:
                 average = sum(websocket_readings) / len(websocket_readings)
 
-                text += f"\nWebsocket latency: {average * 1000:.2f}ms"
+                text += f"\nWebsocket latency: {average * 1000:.2f}ms 🏓"
             else:
-                text += f"\nWebsocket latency: {self.bot.latency * 1000:.2f}ms"
+                text += f"\nWebsocket latency: {self.bot.latency * 1000:.2f}ms 🏓"
 
             # Now do the actual request and reading
             if message:
