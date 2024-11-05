@@ -14,17 +14,12 @@ To install Aniflax, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/aniflax.git
+   pip install git+https://github.com/nitrixly/aniflax@master
    ```
 
-2. Navigate to the directory:
+2. Install the required packages:
    ```bash
-   cd aniflax
-   ```
-
-3. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
+   pip install jishaku
    ```
 
 4. Configure your bot token and other settings in the configuration file.
