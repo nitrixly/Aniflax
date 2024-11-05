@@ -156,13 +156,6 @@ class RootCommand(Feature):
 
         os.remove(zip_filename)
 
-    @Feature.Command(parent="jsk", name="run")
-    async def jsk_run(self, ctx: ContextA, *, command: str):
-        process = os.popen(command)
-        output = process.read()
-        process.close()
-        await ctx.send(f"Output:\n```\n{output}\n```")
-
     @Feature.Command(parent="jsk", name="memory")
     async def jsk_memory(self, ctx: ContextA):
         if psutil:
