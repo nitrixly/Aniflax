@@ -1,4 +1,4 @@
-# Aniflax - Upgraded Version of Jishak
+# Aniflax - Upgraded Version of Jishaku
 
 Aniflax is an upgraded version of the popular Jishaku bot, designed for Discord. It retains the core functionalities of Jishaku while adding new commands and enhanced message handling for a more engaging user experience.
 
